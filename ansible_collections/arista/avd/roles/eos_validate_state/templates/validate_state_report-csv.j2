@@ -213,7 +213,18 @@ test_id,node,test_category,test_description,test,result,failure_reason
 {%         endfor %}
 {%    endif %}
 {% endfor %}
-{# Inb management to loopback 0 reachability Results #}
+{# MTU Results #}
+{% for node in groups[fabric_name] | arista.avd.natural_sort %}
+{%     if hostvars[node].fabric_mtu_results.results is arista.avd.defined %}
+{%         for result in hostvars[node].fabric_mtu_results.results %}
+{%             if result.skipped is not defined %}
+{%                 set test_id.value = test_id.value + 1 %}
+{{ test_id.value }},{{ node }},Point to Point MTU, Tested MTU {{ result.fabric_mtu_test.ethernet_interface.value.mtu }} bytes,Source: {{ node }} - {{ result.fabric_mtu_test.ethernet_interface.key }} Destination: {{ result.fabric_mtu_test.ethernet_interface.value.peer }} - {{ result.fabric_mtu_test.ethernet_interface.value.peer_interface }},{% if result.failed == false %}PASS{% else %}FAIL,{{ result.msg }}{% endif %}
+
+{%             endif %}
+{%         endfor %}
+{%    endif %}
+{% endfor %}
 {% for node in groups[fabric_name] | arista.avd.natural_sort %}
 {%     if hostvars[node].inb_mgmt_loopback0_reachability_results.results is arista.avd.defined %}
 {%         for result in hostvars[node].inb_mgmt_loopback0_reachability_results.results %}
