@@ -103,6 +103,12 @@
               activate: true
 {%                 endfor %}
 {%             endif %}
+{%             if tenants[tenant].vrfs[vrf].bgp.raw_eos_cli is arista.avd.defined %}
+    eos_cli: {{ tenants[tenant].vrfs[vrf].bgp.raw_eos_cli }}
+{%             endif %}
+{%             if tenants[tenant].vrfs[vrf].bgp.structured_config is arista.avd.defined %}
+    structured_config: {{ tenants[tenant].vrfs[vrf].bgp.structured_config }}
+{%             endif %}
 {%         endfor %}
 {%     endfor %}
 {% endif %}

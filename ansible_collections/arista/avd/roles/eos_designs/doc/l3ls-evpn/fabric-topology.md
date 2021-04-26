@@ -110,6 +110,14 @@ spine:
   # Spine BGP AS | Required.
   bgp_as: < bgp_as >
 
+  defaults:
+    # EOS CLI rendered directly on the root level of the final EOS configuration
+    raw_eos_cli: |
+      < multiline eos cli >
+
+    # Custom structured config for eos_cli_config_gen
+    structured_config: < dictionary >
+
   # Specify dictionary of Spine nodes | Required.
   nodes:
     < inventory_hostname >:
@@ -126,6 +134,14 @@ spine:
 
       # Node management IP address | Required.
       mgmt_ip: < IPv4_address/Mask >
+
+      # EOS CLI rendered directly on the root level of the final EOS configuration
+      raw_eos_cli: |
+        < multiline eos cli >
+
+      # Custom structured config for eos_cli_config_gen
+      structured_config: < dictionary >
+
     < inventory_hostname >:
       id: < integer >
       mgmt_ip: < IPv4_address/Mask >
@@ -241,6 +257,13 @@ l3leaf:
       # This allows support for centralized routing.
       evpn_services_l2_only: < false | true >
 
+      # EOS CLI rendered directly on the root level of the final EOS configuration
+      raw_eos_cli: |
+        < multiline eos cli >
+
+      # Custom structured config for eos_cli_config_gen
+      structured_config: < dictionary >
+
       # The node name must be the same name as inventory_hostname | Required
       # When two nodes are defined, this will automatically configure the nodes as an MLAG pair,
       # unless the "l3leaf.defaults.mlag:" key is set to false.
@@ -262,6 +285,15 @@ l3leaf:
           # L3 Leaf BGP AS. | Required.
           # Inheritence: node > node_group > defaults
           bgp_as: < bgp_as >
+
+          # EOS CLI rendered directly on the root level of the final EOS configuration
+          # Overrides the setting on node_group level.
+          raw_eos_cli: |
+            < multiline eos cli >
+
+          # Custom structured config for eos_cli_config_gen
+          # Overrides the setting on node_group level.
+          structured_config: < dictionary >
 
     # node_group_2, will result in MLAG pair.
     < node_group_2 >:
@@ -413,6 +445,13 @@ l2leaf:
       # Activate or deactivate IGMP snooping for node groups devices
       igmp_snooping_enabled: < true | false >
 
+      # EOS CLI rendered directly on the root level of the final EOS configuration
+      raw_eos_cli: |
+        < multiline eos cli >
+
+      # Custom structured config for eos_cli_config_gen
+      structured_config: < dictionary >
+
       # The node name must be the same name as inventory_hostname | Required
       # When two nodes are defined, this will automatically configure the nodes as an MLAG pair,
       # unless the "l2leaf.defaults.mlag:" key is set to false.
@@ -430,6 +469,15 @@ l2leaf:
           # l3leaf interfaces (list), interface located on l3leaf,
           # corresponding to parent_l3leafs and uplink_interfaces | Required.
           l3leaf_interfaces: [ < ethernet_interface_6 >, < ethernet_interface_6 > ]
+
+          # EOS CLI rendered directly on the root level of the final EOS configuration
+          # Overrides the setting on node_group level.
+          raw_eos_cli: |
+            < multiline eos cli >
+
+          # Custom structured config for eos_cli_config_gen
+          # Overrides the setting on node_group level.
+          structured_config: < dictionary >
 
     # node_group_2, will result in MLAG pair.
     < node_group_2 >:
@@ -548,6 +596,13 @@ super_spine:
   platform: vEOS-LAB  # super-spine platform
   bgp_as: <super-spine BGP AS>
 
+  defaults:
+    # EOS CLI rendered directly on the root level of the final EOS configuration
+    raw_eos_cli: |
+      < multiline eos cli >
+    # Custom structured config for eos_cli_config_gen
+    structured_config: < dictionary >
+
   nodes:
     SU-01:  # super-spine name
       id: 1
@@ -557,7 +612,11 @@ super_spine:
       evpn_role: < client | server | none | default -> none  >
       # Peer with these EVPN Route Servers / Route Reflectors | Optional
       evpn_route_servers: [ < route_server_inventory_hostname >, < route_server_inventory_hostname >]
-    <-- etc. -->
+      # EOS CLI rendered directly on the root level of the final EOS configuration
+      raw_eos_cli: |
+        < multiline eos cli >
+      # Custom structured config for eos_cli_config_gen
+      structured_config: < dictionary >
 
 # IP address range for loopbacks for all super-spines in the DC,
 # assigned as /32s
@@ -649,6 +708,13 @@ overlay_controller:
 
       # Peer with these EVPN Route Servers / Route Reflectors | Optional
       evpn_route_servers: [ < route_server_inventory_hostname >, < route_server_inventory_hostname > ]
+
+      # EOS CLI rendered directly on the root level of the final EOS configuration
+      raw_eos_cli: |
+        < multiline eos cli >
+
+      # Custom structured config for eos_cli_config_gen
+      structured_config: < dictionary >
 
 # Point to Point Network Summary range, assigned as /31 for each uplink interfaces
 # Assign range larger than [ total overlay_controllers * max_overlay_controller_to_switch_links * 2]

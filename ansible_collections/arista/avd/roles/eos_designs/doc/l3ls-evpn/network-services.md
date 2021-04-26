@@ -160,11 +160,27 @@ tenants:
                 # device unique IP address for node.
                 ip_address: < IPv4_address/Mask >
 
+                # EOS CLI rendered directly on the VLAN interface in the final EOS configuration
+                # Overrides the setting on SVI level.
+                raw_eos_cli: |
+                  < multiline eos cli >
+
+                # Custom structured config added under vlan_interfaces.<interface> for eos_cli_config_gen
+                # Overrides the setting on SVI level.
+                structured_config: < dictionary >
+
               < l3_leaf_inventory_hostname_2 >:
                 ip_address: < IPv4_address/Mask >
 
             # Defined interface MTU
             mtu: < mtu >
+
+            # EOS CLI rendered directly on the VLAN interface in the final EOS configuration
+            raw_eos_cli: |
+              < multiline eos cli >
+
+            # Custom structured config added under vlan_interfaces.<interface> for eos_cli_config_gen
+            structured_config: < dictionary >
 
           < 1-4096 >:
             name: < description >
@@ -181,6 +197,11 @@ tenants:
             description: < description >
             enabled: < true | false >
             mtu: <mtu >
+            # EOS CLI rendered directly on the Ethernet interface in the final EOS configuration
+            raw_eos_cli: |
+              < multiline eos cli >
+            # Custom structured config added under ethernet_interfaces.<interface> for eos_cli_config_gen
+            structured_config: < dictionary >
 
         # Dictionary of static routes | Optional.
         # This will create static routes inside the tenant VRF, if none specified, all l3leafs that carry the VRF also get the static routes.
@@ -221,6 +242,13 @@ tenants:
             route_map_in: < route-map name >
             local_as: < local BGP ASN >
 
+        bgp:
+          # EOS CLI rendered directly on the Router BGP, VRF definition in the final EOS configuration
+          raw_eos_cli: |
+            < multiline eos cli >
+          # Custom structured config added under router_bgp.vrfs.<vrf> for eos_cli_config_gen
+          structured_config: < dictionary >
+
         # Optional configuration of extra route-targets for this VRF. Useful for route-leaking or gateway between address families.
         additional_route_targets:
           - type: < import | export >
@@ -228,6 +256,12 @@ tenants:
             route_target: "< route_target >"
             # Nodes is optional. Default is all nodes where the VRF is defined.
             nodes: [ < node_1 >, < node_2> ]
+
+        # EOS CLI rendered directly on the root level of the final EOS configuration
+        raw_eos_cli: |
+          < multiline eos cli >
+        # Custom structured config for eos_cli_config_gen
+        structured_config: < dictionary >
 
       < tenant_a_vrf_2 >:
         vrf_vni: < 1-1024 >
