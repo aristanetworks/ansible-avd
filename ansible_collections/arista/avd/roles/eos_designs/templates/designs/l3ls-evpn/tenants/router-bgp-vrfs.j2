@@ -104,10 +104,10 @@
 {%                 endfor %}
 {%             endif %}
 {%             if tenants[tenant].vrfs[vrf].bgp.raw_eos_cli is arista.avd.defined %}
-    eos_cli: {{ tenants[tenant].vrfs[vrf].bgp.raw_eos_cli }}
+      eos_cli: {{ tenants[tenant].vrfs[vrf].bgp.raw_eos_cli | to_json }}
 {%             endif %}
 {%             if tenants[tenant].vrfs[vrf].bgp.structured_config is arista.avd.defined %}
-    structured_config: {{ tenants[tenant].vrfs[vrf].bgp.structured_config }}
+      struct_cfg: {{ tenants[tenant].vrfs[vrf].bgp.structured_config }}
 {%             endif %}
 {%         endfor %}
 {%     endfor %}

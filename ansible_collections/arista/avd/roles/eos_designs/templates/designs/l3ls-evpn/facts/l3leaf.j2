@@ -76,12 +76,12 @@ switch:
 {# switch.raw_eos_cli #}
   raw_eos_cli: {{ l3leaf.node_groups[l3leaf_node_group].nodes[node].raw_eos_cli | arista.avd.default(
                   l3leaf.node_groups[l3leaf_node_group].raw_eos_cli,
-                  l3leaf.defaults.raw_eos_cli) }}
+                  l3leaf.defaults.raw_eos_cli) | to_json() }}
 
-{# switch.structured_config #}
-  structured_config: {{ l3leaf.node_groups[l3leaf_node_group].nodes[node].structured_config | arista.avd.default(
-                        l3leaf.node_groups[l3leaf_node_group].structured_config,
-                        l3leaf.defaults.structured_config) }}
+{# switch.struct_cfg #}
+  struct_cfg: {{ l3leaf.node_groups[l3leaf_node_group].nodes[node].structured_config | arista.avd.default(
+                 l3leaf.node_groups[l3leaf_node_group].structured_config,
+                 l3leaf.defaults.structured_config) }}
 
 {# switch.router_id #}
   router_id: {{ overlay_loopback_network_summary | ipaddr('network') | ipmath(switch_id + switch_max_spines) }}
