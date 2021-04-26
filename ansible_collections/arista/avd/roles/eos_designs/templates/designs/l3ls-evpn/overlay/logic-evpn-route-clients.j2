@@ -24,7 +24,7 @@
 {%                             set client.bgp_as = fabric_switch_vars.l3leaf.node_groups[l3leaf_node_group].nodes[node].bgp_as | arista.avd.default(
                                                    fabric_switch_vars.l3leaf.node_groups[l3leaf_node_group].bgp_as,
                                                    fabric_switch_vars.l3leaf.defaults.bgp_as) %}
-{%                             set client.ip_address = fabric_switch_vars.overlay_loopback_network_summary | ipaddr('network') | ipmath(client.id + fabric_switch_vars.max_spines | arista.avd.default(
+{%                             set client.ip_address = fabric_switch_vars.overlay_loopback_network_summary | ansible.netcommon.ipaddr('network') | ansible.netcommon.ipmath(client.id + fabric_switch_vars.max_spines | arista.avd.default(
                                                                                                                                                     fabric_switch_vars.spine.nodes | length)) %}
 {%                             do overlay_data.evpn_route_clients.update({ fabric_switch: client }) %}
 {%                         endif %}
@@ -42,7 +42,7 @@
 {%                 set client.evpn_role = fabric_switch_evpn_role %}
 {%                 set client.id = fabric_switch_vars.spine.nodes[fabric_switch].id %}
 {%                 set client.bgp_as = fabric_switch_vars.spine.bgp_as | arista.avd.default %}
-{%                 set client.ip_address = fabric_switch_vars.overlay_loopback_network_summary | ipaddr('network') | ipmath(client.id) %}
+{%                 set client.ip_address = fabric_switch_vars.overlay_loopback_network_summary | ansible.netcommon.ipaddr('network') | ansible.netcommon.ipmath(client.id) %}
 {%                 do overlay_data.evpn_route_clients.update({ fabric_switch: client }) %}
 {%             endif %}
 {%         elif fabric_switch_vars.type is arista.avd.defined('super-spine') %}
@@ -55,7 +55,7 @@
 {%                 set client.evpn_role = fabric_switch_evpn_role %}
 {%                 set client.id = fabric_switch_vars.super_spine.nodes[fabric_switch].id %}
 {%                 set client.bgp_as = fabric_switch_vars.super_spine.bgp_as | arista.avd.default %}
-{%                 set client.ip_address = fabric_switch_vars.super_spine_loopback_network_summary  | ipaddr('network') | ipmath(client.id) %}
+{%                 set client.ip_address = fabric_switch_vars.super_spine_loopback_network_summary  | ansible.netcommon.ipaddr('network') | ansible.netcommon.ipmath(client.id) %}
 {%                 do overlay_data.evpn_route_clients.update({ fabric_switch: client }) %}
 {%             endif %}
 {%         elif fabric_switch_vars.type is arista.avd.defined('overlay-controller') %}
@@ -71,7 +71,7 @@
 {%                 set client.id = fabric_switch_vars.overlay_controller.nodes[fabric_switch].id %}
 {%                 set client.bgp_as = fabric_switch_vars.overlay_controller.nodes[fabric_switch].bgp_as | arista.avd.default(
                                        fabric_switch_vars.overlay_controller.defaults.bgp_as) %}
-{%                 set client.ip_address = fabric_switch_vars.overlay_controller_loopback_network_summary  | ipaddr('network') | ipmath(client.id) %}
+{%                 set client.ip_address = fabric_switch_vars.overlay_controller_loopback_network_summary  | ansible.netcommon.ipaddr('network') | ansible.netcommon.ipmath(client.id) %}
 {%                 do overlay_data.evpn_route_clients.update({ fabric_switch: client }) %}
 {%             endif %}
 {%         endif %}

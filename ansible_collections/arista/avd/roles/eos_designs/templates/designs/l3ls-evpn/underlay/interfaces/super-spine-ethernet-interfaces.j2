@@ -12,7 +12,7 @@ ethernet_interfaces:
 {%             endif %}
 {%             set ip_pool = hostvars[host]['super_spine_underlay_p2p_network_summary'] %}
 {#             max number of hosts in subnet will be divided by max super-spine number to avoid address changes when provisioning new spines #}
-{%             set ip_pool_max_hosts_in_subnet = ip_pool | ipaddr('size') %}
+{%             set ip_pool_max_hosts_in_subnet = ip_pool | ansible.netcommon.ipaddr('size') %}
   {{ super_spine_interface }}:
     peer: {{ host }}
     peer_interface: {{ spine_uplink }}
@@ -34,7 +34,7 @@ ethernet_interfaces:
     type: routed
     shutdown: false
     ip_address: {{
-        ip_pool | ipaddr('network') | ipmath(
+        ip_pool | ansible.netcommon.ipaddr('network') | ansible.netcommon.ipmath(
             (ip_pool_max_hosts_in_subnet / max_super_spines) | int * (switch.id-1) + ((spine_id-1) * max_spine_to_super_spine_links + offset) * 2
         )
     }}/31
@@ -86,7 +86,7 @@ ethernet_interfaces:
 {%                 endif %}
     type: routed
     shutdown: false
-    ip_address: {{ overlay_controller_p2p_network_summary | ipaddr('network') | ipmath(((overlay_controller.nodes[overlay_controller_node].id -1) * 2 * max_overlay_controller_to_switch_links) + loop.index0 * 2) }}/31
+    ip_address: {{ overlay_controller_p2p_network_summary | ansible.netcommon.ipaddr('network') | ansible.netcommon.ipmath(((overlay_controller.nodes[overlay_controller_node].id -1) * 2 * max_overlay_controller_to_switch_links) + loop.index0 * 2) }}/31
 {%                 if switch.underlay_routing_protocol == "ospf" %}
     ospf_network_point_to_point: true
     ospf_area: {{ underlay_ospf_area }}

@@ -39,7 +39,7 @@ vlan_interfaces:
 {%                 endif %}
 {# Virtual Router IP Address #}
 {%                 if per_svi.values.ip_virtual_router_address is defined or profile.values.ip_virtual_router_address is defined %}
-    ip_virtual_router_address: {{ per_svi.values.ip_virtual_router_address | ipaddr('address') if per_svi.values.ip_virtual_router_address is defined else profile.values.ip_virtual_router_address | ipaddr('address') }}
+    ip_virtual_router_address: {{ per_svi.values.ip_virtual_router_address | ansible.netcommon.ipaddr('address') if per_svi.values.ip_virtual_router_address is defined else profile.values.ip_virtual_router_address | ansible.netcommon.ipaddr('address') }}
 {%                 endif %}
 {# Virtual IP address #}
 {%                 if per_svi.values.ip_address_virtual is defined or profile.values.ip_address_virtual is defined %}
@@ -105,7 +105,7 @@ vlan_interfaces:
     shutdown: false
     description: "MLAG_PEER_L3_iBGP: vrf {{ vrf }}"
     vrf: {{ vrf }}
-    ip_address: {{ mlag_ips.leaf_peer_l3 | ipaddr('network') | ipmath(switch.mlag_ip) }}/31
+    ip_address: {{ mlag_ips.leaf_peer_l3 | ansible.netcommon.ipaddr('network') | ansible.netcommon.ipmath(switch.mlag_ip) }}/31
     mtu: {{ p2p_uplinks_mtu }}
 {%                     endif %}
 {%                 endif %}
