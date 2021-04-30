@@ -16,7 +16,7 @@ ethernet_interfaces:
 {%         endif %}
     type: routed
     shutdown: false
-    ip_address: {{ overlay_controller_p2p_network_summary | ipaddr('network') | ipmath(((switch.id -1) * 2 * max_overlay_controller_to_switch_links) + loop.index0 * 2 + 1) }}/31
+    ip_address: {{ overlay_controller_p2p_network_summary | ansible.netcommon.ipaddr('network') | ansible.netcommon.ipmath(((switch.id -1) * 2 * max_overlay_controller_to_switch_links) + loop.index0 * 2 + 1) }}/31
 {%         if switch.underlay_routing_protocol == "ospf" %}
     ospf_network_point_to_point: true
     ospf_area: {{ underlay_ospf_area }}
